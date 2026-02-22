@@ -1,0 +1,39 @@
+{
+  "name": "Lead Mappo GMap Extractor Extension",
+  "description": "Extract business leads from Google Maps - by Asha Webtech IT Solution Pvt Ltd",
+  "version": "2.3.0",
+  "manifest_version": 3,
+  "action": {
+    "default_icon": {
+      "16": "assets/icons/icon16.png",
+      "48": "assets/icons/icon48.png",
+      "128": "assets/icons/icon128.png"
+    },
+    "default_title": "Asha GMap Extractor"
+  },
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+  "permissions": [
+    "tabs",
+    "storage",
+    "activeTab",
+    "scripting",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://*.google.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.google.com/maps/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ]
+}

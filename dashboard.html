@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Mappo GMap Extractor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Screen -->
+        <div id="loginScreen" class="screen active" data-testid="login-screen">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <div class="logo-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <h1>Lead Mappo</h1>
+                        <p>Extract business leads from Google Maps</p>
+                    </div>
+                    <form id="loginForm" data-testid="login-form">
+                        <div class="form-group">
+                            <label><i class="fas fa-envelope"></i> Email Address</label>
+                            <input type="email" id="loginEmail" required placeholder="your@email.com" data-testid="login-email">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Password</label>
+                            <input type="password" id="loginPassword" required placeholder="Enter password" data-testid="login-password">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" data-testid="login-btn">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </form>
+                    <div id="loginError" class="error-message" data-testid="login-error"></div>
+                    <div class="auth-footer">
+                        <p>Don't have an account? <a href="https://leadmappo.com" target="_blank">Get Started</a></p>
+                    </div>
+                </div>
+                <div class="company-info">
+                    <p>&copy; 2024 Asha Webtech IT Solution Pvt Ltd</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- License Key Screen -->
+        <div id="licenseScreen" class="screen" data-testid="license-screen">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <div class="logo-icon success"><i class="fas fa-key"></i></div>
+                        <h1>Enter License Key</h1>
+                        <p>Please enter your license key to activate</p>
+                    </div>
+                    <form id="licenseForm" data-testid="license-form">
+                        <div class="form-group">
+                            <label><i class="fas fa-key"></i> License Key</label>
+                            <input type="text" id="licenseKey" required placeholder="XXXX-XXXX-XXXX-XXXX" data-testid="license-key-input" style="text-transform:uppercase;letter-spacing:2px;text-align:center;font-family:monospace;font-size:16px;">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" data-testid="activate-btn">
+                            <i class="fas fa-check-circle"></i> Activate License
+                        </button>
+                    </form>
+                    <div id="licenseError" class="error-message" data-testid="license-error"></div>
+                    <button id="backToLogin" class="btn btn-outline btn-full mt-3"><i class="fas fa-arrow-left"></i> Back to Login</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div id="mainScreen" class="screen" data-testid="main-screen">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <div class="logo">
+                        <div class="logo-icon small"><i class="fas fa-map-marker-alt"></i></div>
+                        <span>Lead Mappo</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button id="historyBtn" class="btn btn-icon" title="Search History" data-testid="history-btn">
+                        <i class="fas fa-history"></i>
+                    </button>
+                    <button id="helpBtn" class="btn btn-icon" title="Help" data-testid="help-btn">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+                    <div class="user-menu">
+                        <button id="userMenuBtn" class="btn btn-icon" data-testid="user-menu-btn">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <div id="userDropdown" class="dropdown-menu">
+                            <div class="dropdown-header">
+                                <span id="userName">User</span>
+                                <small id="userEmail">user@email.com</small>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" id="viewPlanBtn" class="dropdown-item"><i class="fas fa-gem"></i> My Plan</a>
+                            <a href="https://leadmappo.com/account.html#topup" target="_blank" class="dropdown-item" style="color: #f59e0b;"><i class="fas fa-coins"></i> Buy More Credits</a>
+                            <a href="https://leadmappo.com/buy.html" target="_blank" class="dropdown-item"><i class="fas fa-shopping-cart"></i> Change/Upgrade Plan</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="https://leadmappo.com/how-to-install.html" target="_blank" class="dropdown-item"><i class="fas fa-download"></i> How to Install</a>
+                            <a href="https://leadmappo.com/how-to-use.html" target="_blank" class="dropdown-item"><i class="fas fa-play-circle"></i> How to Use</a>
+                            <a href="#" id="contactBtn" class="dropdown-item"><i class="fas fa-headset"></i> Contact Support</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="https://leadmappo.com/privacy.html" target="_blank" class="dropdown-item"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
+                            <a href="https://leadmappo.com/terms.html" target="_blank" class="dropdown-item"><i class="fas fa-file-contract"></i> Terms of Service</a>
+                            <a href="https://leadmappo.com/refund.html" target="_blank" class="dropdown-item"><i class="fas fa-undo"></i> Refund Policy</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" id="logoutBtn" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Plan Info Bar -->
+            <div class="plan-bar" id="planBar" data-testid="plan-bar">
+                <div class="plan-info">
+                    <span class="plan-name" id="planName">Basic Plan</span>
+                    <span class="plan-expires" id="planExpires">Expires in 30 days</span>
+                </div>
+                <div class="plan-credits">
+                    <div class="credit-item">
+                        <span class="credit-label">Extractions</span>
+                        <span class="credit-value" id="extractionCredits">0/1000</span>
+                    </div>
+                    <div class="credit-item">
+                        <span class="credit-label">Exports</span>
+                        <span class="credit-value" id="exportCredits">0/50</span>
+                    </div>
+                    <button id="refreshUserDataBtn" class="refresh-btn" title="Refresh Data" onclick="manualRefreshUserData()">
+                        <i class="fas fa-sync"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Search Section -->
+                <section class="card search-card" data-testid="search-section">
+                    <div class="card-header">
+                        <h2><i class="fas fa-search"></i> Search Businesses</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="search-form">
+                            <div class="form-group">
+                                <label>Keyword</label>
+                                <input type="text" id="keyword" placeholder="e.g., restaurants, hotels, dentists" data-testid="keyword-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Location</label>
+                                <input type="text" id="location" placeholder="e.g., Mumbai, New York" data-testid="location-input">
+                            </div>
+                            <div class="form-actions">
+                                <button id="startBtn" class="btn btn-primary" data-testid="start-btn">
+                                    <i class="fas fa-play"></i> Start Scan
+                                </button>
+                                <button id="stopBtn" class="btn btn-danger" disabled data-testid="stop-btn">
+                                    <i class="fas fa-stop"></i> Stop
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Status Section -->
+                <section class="status-bar" data-testid="status-section">
+                    <div class="status-item">
+                        <i class="fas fa-circle-notch"></i>
+                        <span class="status-label">Status:</span>
+                        <span id="scanStatus" class="status-value" data-testid="scan-status">Ready</span>
+                    </div>
+                    <div class="status-item">
+                        <i class="fas fa-search"></i>
+                        <span class="status-label">Current:</span>
+                        <span id="currentSearch" class="status-value" data-testid="current-search">-</span>
+                    </div>
+                    <div class="status-item highlight">
+                        <i class="fas fa-database"></i>
+                        <span class="status-label">Results:</span>
+                        <span id="resultsCount" class="status-value" data-testid="results-count">0</span>
+                    </div>
+                </section>
+
+                <!-- Results Section -->
+                <section class="card results-card" data-testid="results-section">
+                    <div class="card-header">
+                        <h2><i class="fas fa-table"></i> Extracted Data</h2>
+                        <div class="card-actions">
+                            <button id="exportCsvBtn" class="btn btn-secondary" disabled data-testid="export-csv-btn">
+                                <i class="fas fa-file-csv"></i> CSV
+                            </button>
+                            <button id="exportExcelBtn" class="btn btn-secondary" disabled data-testid="export-excel-btn">
+                                <i class="fas fa-file-excel"></i> Excel
+                            </button>
+                            <button id="clearBtn" class="btn btn-outline" data-testid="clear-btn">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body table-wrapper">
+                        <table id="resultsTable" data-testid="results-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Business Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Rating</th>
+                                    <th>Reviews</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Country</th>
+                                    <th>Link</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody" data-testid="table-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-links">
+                    <a href="#" id="privacyLink">Privacy Policy</a>
+                    <a href="#" id="termsLink">Terms of Service</a>
+                    <a href="#" id="refundLink">Refund Policy</a>
+                    <a href="https://leadmappo.com" target="_blank">Website</a>
+                </div>
+                <div class="footer-links" style="margin-top: 12px; display: flex; gap: 16px; justify-content: center;">
+                    <a href="https://leadmappo.com/how-to.html" target="_blank" style="color: #3b82f6; font-size: 12px; text-decoration: none;"><i class="fas fa-play-circle"></i> How to Use</a>
+                    <a href="https://leadmappo.com/buy.html" target="_blank" style="color: #3b82f6; font-size: 12px; text-decoration: none;"><i class="fas fa-shopping-cart"></i> Buy Plan</a>
+                    <a href="https://leadmappo.com/account.html" target="_blank" style="color: #3b82f6; font-size: 12px; text-decoration: none;"><i class="fas fa-user"></i> My Account</a>
+                </div>
+                <div class="footer-contact">
+                    <span><i class="fas fa-phone"></i> +91 7024315567</span>
+                    <span><i class="fas fa-envelope"></i> info@leadmappo.com</span>
+                </div>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/ashawebtech/" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/ashawebtech/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com/AshaWebTech" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/@AshaWebTechITSolution" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+                <p class="copyright">&copy; 2024 Asha Webtech IT Solution Pvt Ltd. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <!-- History Modal -->
+        <div id="historyModal" class="modal" data-testid="history-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-history"></i> Search History</h3>
+                    <button class="close-btn" data-close="historyModal"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <ul id="historyList" class="history-list" data-testid="history-list"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plan Modal -->
+        <div id="planModal" class="modal" data-testid="plan-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-gem"></i> My Plan Details</h3>
+                    <button class="close-btn" data-close="planModal"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="plan-detail-card">
+                        <div class="plan-detail-header">
+                            <h4 id="modalPlanName">Basic Plan</h4>
+                            <span class="plan-badge" id="modalPlanStatus">Active</span>
+                        </div>
+                        <div class="plan-detail-body">
+                            <div class="detail-row">
+                                <span>License Key</span>
+                                <code id="modalLicenseKey">XXXX-XXXX-XXXX-XXXX</code>
+                            </div>
+                            <div class="detail-row">
+                                <span>Expires On</span>
+                                <span id="modalExpiresAt">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Days Remaining</span>
+                                <span id="modalDaysLeft">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Extractions Used</span>
+                                <span id="modalExtractions">0/1000</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Exports Used</span>
+                                <span id="modalExports">0/50</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Referral Section -->
+                        <div class="plan-detail-referral" style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb;">
+                            <h5 style="font-size: 14px; margin-bottom: 12px; color: #6b7280;"><i class="fas fa-user-friends"></i> Refer & Earn</h5>
+                            <div class="detail-row">
+                                <span>Your Referral Code</span>
+                                <code id="modalReferralCode" style="cursor: pointer;" onclick="copyReferralCode()">-</code>
+                            </div>
+                            <p style="font-size: 11px; color: #9ca3af; margin-top: 8px;">Share this code with friends. Both get 50 extractions + 5 exports when they purchase!</p>
+                        </div>
+                        
+                        <div class="plan-detail-footer">
+                            <p>Need more credits or want to upgrade?</p>
+                            <a href="https://leadmappo.com/buy.html" target="_blank" class="btn btn-primary"><i class="fas fa-external-link-alt"></i> Upgrade Plan</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Modal -->
+        <div id="helpModal" class="modal" data-testid="help-modal">
+            <div class="modal-content modal-lg">
+                <div class="modal-header">
+                    <h3><i class="fas fa-question-circle"></i> Help & Support</h3>
+                    <button class="close-btn" data-close="helpModal"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="help-section">
+                        <h4>How to Use</h4>
+                        <ol>
+                            <li>Enter a keyword (e.g., "restaurants", "hotels", "dentists")</li>
+                            <li>Enter a location (e.g., "Mumbai", "New York")</li>
+                            <li>Click "Start Scan" to begin extracting data</li>
+                            <li>Wait for the scan to complete or click "Stop" to end early</li>
+                            <li>Export your data as CSV or Excel file</li>
+                        </ol>
+                    </div>
+                    <div class="help-section">
+                        <h4>Contact Support</h4>
+                        <div class="contact-grid">
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <strong>Phone</strong>
+                                    <p>+91 7024315567<br>+91 9755121478</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <strong>Email</strong>
+                                    <p>info@leadmappo.com<br>info@leadmappo.com</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <strong>Address</strong>
+                                    <p>Office No. 69 Ratan Colony<br>New Jail Road Huzur<br>Bhopal - 462038</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-globe"></i>
+                                <div>
+                                    <strong>Website</strong>
+                                    <p><a href="https://leadmappo.com" target="_blank">leadmappo.com</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy Policy Modal -->
+        <div id="privacyModal" class="modal" data-testid="privacy-modal">
+            <div class="modal-content modal-lg">
+                <div class="modal-header">
+                    <h3><i class="fas fa-shield-alt"></i> Privacy Policy</h3>
+                    <button class="close-btn" data-close="privacyModal"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body policy-content">
+                    <p><strong>Last Updated:</strong> January 2024</p>
+                    <h4>1. Information We Collect</h4>
+                    <p>We collect information you provide directly to us, such as your name, email address, and license information when you create an account or purchase a license.</p>
+                    <h4>2. How We Use Your Information</h4>
+                    <p>We use the information to provide, maintain, and improve our services, process transactions, and send you technical notices and support messages.</p>
+                    <h4>3. Data Storage</h4>
+                    <p>All extracted data is stored locally on your device. We do not store or have access to the business data you extract using this extension.</p>
+                    <h4>4. Data Security</h4>
+                    <p>We implement appropriate security measures to protect your personal information against unauthorized access, alteration, or destruction.</p>
+                    <h4>5. Contact Us</h4>
+                    <p>For any questions about this Privacy Policy, please contact us at privacy@leadmappo.com</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terms Modal -->
+        <div id="termsModal" class="modal" data-testid="terms-modal">
+            <div class="modal-content modal-lg">
+                <div class="modal-header">
+                    <h3><i class="fas fa-file-contract"></i> Terms of Service</h3>
+                    <button class="close-btn" data-close="termsModal"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body policy-content">
+                    <p><strong>Last Updated:</strong> January 2024</p>
+                    <h4>1. Acceptance of Terms</h4>
+                    <p>By using Lead Mappo, you agree to be bound by these Terms of Service and all applicable laws and regulations.</p>
+                    <h4>2. License</h4>
+                    <p>We grant you a limited, non-exclusive, non-transferable license to use the extension for personal or business purposes, subject to these terms.</p>
+                    <h4>3. Restrictions</h4>
+                    <p>You may not: (a) sublicense, sell, or redistribute the extension; (b) reverse engineer or decompile the extension; (c) use the extension for any illegal purpose.</p>
+                    <h4>4. Disclaimer</h4>
+                    <p>The extension is provided "as is" without warranties of any kind. We do not guarantee the accuracy or completeness of extracted data.</p>
+                    <h4>5. Limitation of Liability</h4>
+                    <p>In no event shall Asha Webtech IT Solution be liable for any indirect, incidental, special, or consequential damages.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Refund Modal -->
+        <div id="refundModal" class="modal" data-testid="refund-modal">
+            <div class="modal-content modal-lg">
+                <div class="modal-header">
+                    <h3><i class="fas fa-undo"></i> Refund Policy</h3>
+                    <button class="close-btn" data-close="refundModal"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body policy-content">
+                    <p><strong>Last Updated:</strong> January 2024</p>
+                    <h4>1. Refund Eligibility</h4>
+                    <p>Refunds may be requested within 7 days of purchase if the extension does not function as described.</p>
+                    <h4>2. Non-Refundable Cases</h4>
+                    <p>Refunds will not be provided if: (a) more than 7 days have passed since purchase; (b) you have used more than 20% of your credit limit; (c) your account has been suspended for violations.</p>
+                    <h4>3. How to Request a Refund</h4>
+                    <p>To request a refund, please contact us at info@leadmappo.com with your order details and reason for the refund request.</p>
+                    <h4>4. Processing Time</h4>
+                    <p>Approved refunds will be processed within 7-10 business days to the original payment method.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Modal -->
+        <div id="contactModal" class="modal" data-testid="contact-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-headset"></i> Contact Support</h3>
+                    <button class="close-btn" data-close="contactModal"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="contact-card">
+                        <div class="company-logo">
+                            <div class="logo-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <h4>Asha Webtech IT Solution Pvt Ltd</h4>
+                        </div>
+                        <div class="contact-details">
+                            <div class="contact-row">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <p>Office No. 69 Ratan Colony, New Jail Road Huzur, Bhopal - 462038</p>
+                            </div>
+                            <div class="contact-row">
+                                <i class="fas fa-phone"></i>
+                                <p>+91 7024315567 | +91 9755121478</p>
+                            </div>
+                            <div class="contact-row">
+                                <i class="fas fa-envelope"></i>
+                                <p>info@leadmappo.com</p>
+                            </div>
+                            <div class="contact-row">
+                                <i class="fas fa-globe"></i>
+                                <p><a href="https://leadmappo.com" target="_blank">leadmappo.com</a></p>
+                            </div>
+                        </div>
+                        <div class="legal-links" style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <p style="font-size: 11px; margin-bottom: 8px; opacity: 0.7;">Legal</p>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 11px;">
+                                <a href="https://leadmappo.com/privacy.html" target="_blank" style="opacity: 0.8; color: white; text-decoration: none;">Privacy</a>
+                                <span style="opacity: 0.4;">|</span>
+                                <a href="https://leadmappo.com/terms.html" target="_blank" style="opacity: 0.8; color: white; text-decoration: none;">Terms</a>
+                                <span style="opacity: 0.4;">|</span>
+                                <a href="https://leadmappo.com/refund.html" target="_blank" style="opacity: 0.8; color: white; text-decoration: none;">Refund</a>
+                                <span style="opacity: 0.4;">|</span>
+                                <a href="https://leadmappo.com/data-extraction-policy.html" target="_blank" style="opacity: 0.8; color: white; text-decoration: none;">Data Policy</a>
+                            </div>
+                        </div>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/ashawebtech/" target="_blank"><i class="fab fa-facebook"></i></a>
+                            <a href="https://www.instagram.com/ashawebtech/" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://twitter.com/AshaWebTech" target="_blank"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.youtube.com/@AshaWebTechITSolution" target="_blank"><i class="fab fa-youtube"></i></a>
+                            <a href="https://www.threads.net/@ashawebtech" target="_blank"><i class="fab fa-threads"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="libs/xlsx.full.min.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
